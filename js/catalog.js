@@ -7,10 +7,13 @@ const cart = new Cart([]);
 
 // On screen load, we call this method to put all of the busmall options
 // (the things in the Product.allProducts array) into the drop down list.
+
+const selectElement = document.getElementById('items');
+
 function populateForm() {
 
   //TODO: Add an <option> tag inside the form's select for each product
-  const selectElement = document.getElementById('items');
+  
 
   // for (let i in Product.allProducts) {
 
@@ -24,7 +27,7 @@ function populateForm() {
 
     selectElement.appendChild(optionElem);
 
-    console.log(optionElem);
+    // console.log(optionElem);
 
   }
 
@@ -36,7 +39,7 @@ function populateForm() {
 function handleSubmit(event) {
 
   // TODO: Prevent the page from reloading
-
+  event.preventDefault();
   // Do all the things ...
   addSelectedItemToCart();
   cart.saveToLocalStorage();
@@ -47,7 +50,15 @@ function handleSubmit(event) {
 
 // TODO: Add the selected item and quantity to the cart
 function addSelectedItemToCart() {
-  for (i = 0; i < items.length; i++);
+
+  for (let i = 0; i < Product.allProducts.length; i++){
+    
+      var opt = selectElement.options[selectElement.selectedIndex];
+      // console.log(Product.allProducts[i].name + "[]" + opt.value)
+      if (Product.allProducts[i].name === opt.value) {
+        cart.addItem(Product.allProducts[i].name)
+      }
+  }
   // TODO: suss out the item picked from the select list
   // TODO: get the quantity
   // TODO: using those, add one item to the Cart
@@ -67,7 +78,8 @@ function updateCartPreview() {
 // Call that handleSubmit method above and kick off the whole process
 const catalogForm = document.getElementById('catalog');
 catalogForm.addEventListener('submit', handleSubmit);
-
+const itemClicked = document.getElementById('items');
+itemClicked.addEventListener('click', addSelectedItemToCart);
 // Before anything else of value can happen, we need to fill in the select
 // drop down list in the form.
 populateForm();
