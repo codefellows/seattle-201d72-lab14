@@ -48,29 +48,39 @@ function handleSubmit(event) {
 
 }
 
-// TODO: Add the selected item and quantity to the cart
+// DONE: Add the selected item and quantity to the cart
 function addSelectedItemToCart() {
 
+  const opt = selectElement.options[selectElement.selectedIndex];
+  const quantity = document.getElementById('quantity').value;
+  
   for (let i = 0; i < Product.allProducts.length; i++){
-    
-      var opt = selectElement.options[selectElement.selectedIndex];
-      // console.log(Product.allProducts[i].name + "[]" + opt.value)
       if (Product.allProducts[i].name === opt.value) {
-        cart.addItem(Product.allProducts[i].name)
+        cart.addItem(Product.allProducts[i].name, quantity)
       }
   }
-  // TODO: suss out the item picked from the select list
-  // TODO: get the quantity
-  // TODO: using those, add one item to the Cart
+  // DONE: suss out the item picked from the select list
+  // DONE: get the quantity
+  // DONE: using those, add one item to the Cart
 }
 
-// TODO: Update the cart count in the header nav with the number of items in the Cart
-function updateCounter() {}
+// DONE: Update the cart count in the header nav with the number of items in the Cart
+function updateCounter() {
+  const itemCountElem = document.getElementById('itemCount');
+  const numberOfItemsInCart = cart.items.length
+  itemCountElem.textContent = '(' + numberOfItemsInCart + ')';
+}
 
-// TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
+// DONE: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
-  // TODO: Get the item and quantity from the form
-  // TODO: Add a new element to the cartContents div with that information
+  // DONE: Get the item and quantity from the form
+  // DONE: Add a new element to the cartContents div with that information
+  const previewElem = document.getElementById('cartContents');
+  const lastCartItem = cart.items[cart.items.length-1];
+  const cartItemElem = document.createElement('p');
+  cartItemElem.textContent = lastCartItem.product + " : " + lastCartItem.quantity;
+  previewElem.appendChild(cartItemElem);
+  console.log(lastCartItem);
 }
 
 // Set up the "submit" event listener on the form.
@@ -78,8 +88,6 @@ function updateCartPreview() {
 // Call that handleSubmit method above and kick off the whole process
 const catalogForm = document.getElementById('catalog');
 catalogForm.addEventListener('submit', handleSubmit);
-const itemClicked = document.getElementById('items');
-itemClicked.addEventListener('click', addSelectedItemToCart);
 // Before anything else of value can happen, we need to fill in the select
 // drop down list in the form.
 populateForm();
